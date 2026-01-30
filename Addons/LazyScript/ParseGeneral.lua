@@ -939,34 +939,33 @@ function lazyScript.bitParsers.ifTargetAttackable(bit, actions, masks)
 end
 
 
--- supported unitIds: player, pet, target
+-- supported unitIds: player, pet, target, targettarget
 function lazyScript.masks.GetUnitHealth(unitId, wantPct, wantDeficit, sayNothing)
 	if (unitId == "player" or unitId == "pet" or UnitPlayerOrPetInParty(unitId) or UnitPlayerOrPetInRaid(unitId)) then
 		if (wantPct) then
 			local pct = (UnitHealth(unitId) / UnitHealthMax(unitId)) * 100
 			if (wantDeficit) then
 				return (100 - pct)
-				else
+			else
 				return pct
 			end
-			else
+		else
 			if (wantDeficit) then
 				return UnitHealthMax(unitId) - UnitHealth(unitId)
-				else
+			else
 				return UnitHealth(unitId)
 			end
 		end
 
-		elseif (unitId == "target") then
+	elseif (unitId == "target") then
 		if (wantPct) then
 			local pct = (UnitHealth(unitId) / UnitHealthMax(unitId)) * 100
 			if (wantDeficit) then
 				return (100 - pct)
-				else
+			else
 				return pct
 			end
-			else
-
+		else
 			local hp = MobHealth_GetTargetCurHP and MobHealth_GetTargetCurHP() or UnitHealth(unitId)
 			if (not hp) then
 				return nil
@@ -977,8 +976,36 @@ function lazyScript.masks.GetUnitHealth(unitId, wantPct, wantDeficit, sayNothing
 					return nil
 				end
 				return (maxHP - hp)
-				else
+			else
 				return hp
+			end
+		end
+	elseif (unitId == "targettarget") then
+		if (wantPct) then
+			local maxHP = UnitHealthMax(unitId)
+			local curHP = UnitHealth(unitId)
+			if (not maxHP or maxHP == 0 or not curHP) then
+				return nil
+			end
+			local pct = (curHP / maxHP) * 100
+			if (wantDeficit) then
+				return (100 - pct)
+			else
+				return pct
+			end
+		else
+			local curHP = UnitHealth(unitId)
+			if not curHP then
+				return nil
+			end
+			if (wantDeficit) then
+				local maxHP = UnitHealthMax(unitId)
+				if not maxHP then
+					return nil
+				end
+				return (maxHP - curHP)
+			else
+				return curHP
 			end
 		end
 	end
