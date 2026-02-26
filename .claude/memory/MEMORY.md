@@ -4,6 +4,10 @@
 
 - **Never assume/placeholder when uncertain** — always ask the user instead of guessing and using a "reasonable placeholder". If a value (e.g. texture name, spell ID) is unknown, stop and ask.
 
+## Version Bumping
+
+Every change to any addon requires bumping `## Version` in the corresponding `.toc` file so the addon manager detects the update. Bump the `.toc` of every addon whose files were modified (e.g. change in `Addons/LazyScript/` → bump `LazyScript.toc`, change in `Addons/LazyDruid/` → bump `LazyDruid.toc`).
+
 ## Adding a New Spell/Action to a Class Addon
 
 Every new `lazyXxx.actions.foo = lazyXxx.Action:New(...)` requires a matching locale entry, otherwise `obj.name` will be `nil` and the addon will crash with "attempt to concatenate field 'name' (a nil value)" when the action is used.

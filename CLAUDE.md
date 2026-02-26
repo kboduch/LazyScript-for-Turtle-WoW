@@ -75,10 +75,15 @@ lazyScript.Action:New(code, texture, interruptsAutoAttack, triggersGlobal, probl
 
 `Scripts/` contains example `.txt` form scripts for Paladin (various specs/roles). These are reference scripts to copy into the in-game form editor, not loaded by WoW directly.
 
+## Optional Dependencies
+
+**Cursive** (`https://github.com/pepopo978/Cursive`) — requires SuperWoW. When loaded, `ifNotTargetHasDebuff` and `ifNotTargetHasDebuffTitle` use `Cursive.curses:HasCurse(lowercaseName, guid, 0)` to detect only player-cast debuffs on the target, ignoring debuffs from other players with the same spell. Implemented in `ParseBuffs.lua:CheckBuffOrDebuff` and `CheckBuffOrDebuffTitle`. Category-based checks (`ifTargetIs=CCd/Stunned` etc.) intentionally bypass Cursive and always use `UnitDebuff`.
+
 ## No Build System
 
 This is pure Lua/XML for WoW 1.12. There is no compilation, linting, or test runner. Development workflow is:
 1. Edit `.lua` files directly
-2. Copy the `Addons/` directory into the WoW client's `Interface/AddOns/` folder
-3. Reload the UI in-game (`/reload`) to test changes
-4. Use the in-game "Test" button in the LazyScript form editor to validate form syntax
+2. Bump `## Version` in the relevant `.toc` file(s) — required so the addon manager detects the change
+3. Copy the `Addons/` directory into the WoW client's `Interface/AddOns/` folder
+4. Reload the UI in-game (`/reload`) to test changes
+5. Use the in-game "Test" button in the LazyScript form editor to validate form syntax
