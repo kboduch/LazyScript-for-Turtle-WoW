@@ -329,27 +329,7 @@ function lazyScript.OnEvent()
 		-- Player has entered world, reset combat flag just in case we didn't
 		-- or won't get the REGEN_ENABLED event.
 		lazyScript.OnPlayerRegenEnabled()
-
-		-- Re-run the slot/spell-rank optimization for all cached forms.
-		-- On initial login (not /reload), action bars are not fully populated
-		-- at PLAYER_LOGIN time, so the first optimization pass silently fails.
-		-- By PLAYER_ENTERING_WORLD the UI is fully initialised and the lookup
-		-- is guaranteed to succeed.
-		for _, parsedForm in pairs(lazyScript.parsedFormCache) do
-			if parsedForm then
-				for _, actionLine in ipairs(parsedForm) do
-					for _, action in ipairs(actionLine[1]) do
-						if action.GetSlot ~= nil then
-							action:GetSlot(true)
-						end
-						if action.FindSpellRanks ~= nil then
-							action:FindSpellRanks(true)
-						end
-					end
-				end
-			end
-		end
-
+		
 		-- Now for everything else that is used by LazyScript
 		elseif (event == "CHAT_MSG_SYSTEM") then
 		local duelCountdown = lazyScript.getLocaleString("DUEL_COUNTDOWN")
