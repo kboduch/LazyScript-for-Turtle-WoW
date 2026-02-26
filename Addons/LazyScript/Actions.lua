@@ -346,12 +346,23 @@ end
 function lazyScript.Action:IsUsable(sayNothing)
 	-- Run this here to make Action:Use quicker by not always having to search the spell book
 	local spellIndexStart, rankCount, maxRank = self:FindSpellRanks(sayNothing)
-	if (self:GetSlot(sayNothing)) then
+	-- If the spell is in the spellbook, suppress the "add to action bar" warning from GetSlot,
+	-- since Use() will fall back to CastSpell(spellIndex) and doesn't need the slot.
+	local slotSayNothing = sayNothing or (spellIndexStart ~= nil)
+	if (self:GetSlot(slotSayNothing)) then
 		local inRange = IsActionInRange(self.slot)
 		if (IsUsableAction(self.slot) == 1 and
 			GetActionCooldown(self.slot) == 0 and -- not in cooldown
 			not IsCurrentAction(self.slot) and -- not already being used
 			(inRange == 1 or inRange == nil or (self.parent and self.parent.target == "player"))) then
+			return true
+		end
+	elseif spellIndexStart then
+		-- Slot not found but spell is in spellbook; Use() will call CastSpell() directly.
+		-- Fall back to spell-based cooldown/usability check.
+		local spellIndex = spellIndexStart + rankCount - 1
+		local start, duration, enable = GetSpellCooldown(spellIndex, BOOKTYPE_SPELL)
+		if enable == 1 and start == 0 then
 			return true
 		end
 	end

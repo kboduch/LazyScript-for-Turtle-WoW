@@ -387,9 +387,11 @@ function lazyScript.masks.HasBuffOrDebuff(unitId, buffOrDebuff, texture, ttTitle
 		end
 
 		-- title test
+		-- If the tooltip returns nil (broken tooltip API), fall back to texture-only match.
+		-- Only reject if the tooltip returns a name that does NOT match.
 		if (isMatch and ttTitle) then
 			local thisTTTitle = lazyScript.Tooltip:GetUnitBuffOrDebuffTextLeftN(unitId, buffOrDebuff, buffId, 1)
-			if (not thisTTTitle or not string.find(thisTTTitle, "^"..ttTitle)) then
+			if thisTTTitle and not string.find(thisTTTitle, "^"..ttTitle) then
 				isMatch = false
 			end
 		end
