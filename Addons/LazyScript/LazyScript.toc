@@ -1,12 +1,12 @@
 ﻿## Interface: 11200
 ## Title: LazyScript
 ## Title-zhCN: 懒人神器 - |cffDD2222主程序|r
-## Version: 1.0.4
+## Version: 1.0.5
 ## X-Revision: $Revision: 800 $
 ## X-LazyScriptCompatibility: 3
 ## Notes: Programmable Class Attacks.
 ## Notes-zhCN: 懒人神器主程序，所有职业的个性脚本均需要加载。
-## OptionalDeps: MobInfo-2, Tracer
+## OptionalDeps: MobInfo-2, Tracer, Cursive
 ## SavedVariables: lsConfGlobal
 ## SavedVariablesPerCharacter: lsConf
 

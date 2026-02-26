@@ -420,6 +420,20 @@ end
 
 function lazyScript.masks.CheckBuffOrDebuff(unitId, buffObj, buffType, gtLtEq, val)
 	return function(sayNothing)
+		-- When Cursive (SuperWoW) is available, use it for debuff checks on non-player units.
+		-- This ensures ifNotTargetHasDebuff only matches debuffs cast by this player.
+		if buffType == "debuff" and unitId ~= "player" and buffObj.name and Cursive and UnitGUID then
+			local guid = UnitGUID(unitId)
+			if guid then
+				if Cursive.curses:HasCurse(string.lower(buffObj.name), guid, 0) then
+					lazyScript.d("Cursive: found player debuff '" .. buffObj.name .. "' on " .. unitId)
+					return 1
+				end
+				lazyScript.d("Cursive: player debuff '" .. buffObj.name .. "' not found on " .. unitId)
+				return nil
+			end
+		end
+
 		local buffId, buffApplications = lazyScript.masks.HasBuffOrDebuff(unitId, buffType, buffObj.texture, buffObj.name, buffObj.body, sayNothing)
 
 		if (not buffId) and (gtLtEq ~= "") then
@@ -501,6 +515,20 @@ end
 
 function lazyScript.masks.CheckBuffOrDebuffTitle(unitId, buffName, buffType, gtLtEq, val)
 	return function(sayNothing)
+		-- When Cursive (SuperWoW) is available, use it for debuff checks on non-player units.
+		-- This ensures ifNotTargetHasDebuffTitle only matches debuffs cast by this player.
+		if buffType == "debuff" and unitId ~= "player" and buffName and Cursive and UnitGUID then
+			local guid = UnitGUID(unitId)
+			if guid then
+				if Cursive.curses:HasCurse(string.lower(buffName), guid, 0) then
+					lazyScript.d("Cursive: found player debuff title '" .. buffName .. "' on " .. unitId)
+					return 1
+				end
+				lazyScript.d("Cursive: player debuff title '" .. buffName .. "' not found on " .. unitId)
+				return nil
+			end
+		end
+
 		local buffId, buffApplications = lazyScript.masks.HasBuffOrDebuff(unitId, buffType, nil, buffName, nil, sayNothing)
 
 		if (not buffId) and (gtLtEq ~= "") then

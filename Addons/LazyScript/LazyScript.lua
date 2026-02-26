@@ -321,6 +321,9 @@ function lazyScript.OnEvent()
 		
 		-- Everything registered and ready to go. Say Hello!
 		lazyScript.chat(lazyScript.metadata:getNameVersionRevisionString()..LOADED)
+		if Cursive then
+			lazyScript.chat("Cursive detected - player debuff tracking enabled")
+		end
 		
 		elseif (event == "PLAYER_ENTERING_WORLD") then
 		-- Player has entered world, reset combat flag just in case we didn't
