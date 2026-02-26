@@ -47,6 +47,7 @@ function lazyDruidLoad.LoadDruidLocalization(locale)
 	lazyDruidLocale.enUS.ACTION_TTS.regrowth           = "Regrowth"
 	lazyDruidLocale.enUS.ACTION_TTS.rejuv              = "Rejuvenation"
 	lazyDruidLocale.enUS.ACTION_TTS.removeCurse        = "Remove Curse"
+	lazyDruidLocale.enUS.ACTION_TTS.reshift            = "Reshift"
 	lazyDruidLocale.enUS.ACTION_TTS.roots              = "Entangling Roots"
 	lazyDruidLocale.enUS.ACTION_TTS.soothe             = "Soothe Animal"
 	lazyDruidLocale.enUS.ACTION_TTS.starfire           = "Starfire"
